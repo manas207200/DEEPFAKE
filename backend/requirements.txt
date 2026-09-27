@@ -1,0 +1,7 @@
+# Listed in the product spec
+fastapi
+
+# Needed to serve FastAPI locally (not listed in the Tech Stack — ask before installing)
+# uvicorn
+
+# Optional later (also ask first): librosa, numpy, scikit-learn, joblib, soundfile, twilio
