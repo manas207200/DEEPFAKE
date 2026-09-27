@@ -39,5 +39,7 @@ All audio processing happens on-device or within a single session. Only derived 
 Native call-audio interception is not attempted since it is platform-restricted. The ML classifier is trained on a small demo-scale dataset for fast iteration. Pre-pickup number screening uses a small seeded demo dataset rather than a live national registry.
 
 ## Team
-
-Add team member names here.
+Akshat Gupta
+Manas Jai Singh
+Erushi Jain
+Aarush Verma
