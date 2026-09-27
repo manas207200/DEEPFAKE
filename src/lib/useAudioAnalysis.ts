@@ -71,9 +71,13 @@ export function useAudioAnalysis(opts: {
         });
 
         if (opts.demoMode) {
-          player.loop = true;
-          player.volume = 0.85;
-          player.play();
+          try {
+            player.loop = true;
+            player.volume = 0.85;
+            player.play();
+          } catch (e) {
+            // Player may not be ready yet
+          }
 
           while (!cancelled.current) {
             await runChunk({ demo_clip: opts.demoClip });
@@ -115,7 +119,11 @@ export function useAudioAnalysis(opts: {
 
     return () => {
       cancelled.current = true;
-      player.pause();
+      try {
+        player.pause();
+      } catch (e) {
+        // Player may already be released — safe to ignore during cleanup
+      }
     };
   }, [opts.enabled, opts.demoMode, opts.demoClip, runChunk]);
 

@@ -1,4 +1,4 @@
-import { Audio } from "expo-av";
+import { useAudioRecorder, RecordingPresets, AudioModule } from "expo-audio";
 import * as Crypto from "expo-crypto";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -15,20 +15,23 @@ export function AddContactScreen() {
   const [voiceprintHash, setVoiceprintHash] = useState<string | undefined>();
   const [status, setStatus] = useState("Voiceprints stay on this device. Raw audio is never uploaded.");
 
+  const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+
   async function recordVoice() {
-    const perm = await Audio.requestPermissionsAsync();
+    const perm = await AudioModule.requestRecordingPermissionsAsync();
     if (!perm.granted) {
       setStatus("Microphone permission is required to capture a local voiceprint.");
       return;
     }
-    await Audio.setAudioModeAsync({ allowsRecordingIOS: true, playsInSilentModeIOS: true });
-    const rec = new Audio.Recording();
-    await rec.prepareToRecordAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
-    await rec.startAsync();
+    await AudioModule.setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
+
+    await recorder.prepareToRecordAsync();
+    recorder.record();
     setStatus("Recording 5-second local sample…");
     await new Promise((r) => setTimeout(r, 5000));
-    await rec.stopAndUnloadAsync();
-    const uri = rec.getURI() ?? `${name}-${phone}-${Date.now()}`;
+    await recorder.stop();
+
+    const uri = recorder.uri ?? `${name}-${phone}-${Date.now()}`;
     const hash = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, uri);
     setVoiceprintHash(hash);
     setStatus("Local embedding saved. The raw clip was discarded after hashing.");

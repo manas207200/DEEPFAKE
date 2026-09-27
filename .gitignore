@@ -39,3 +39,8 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+# Backend (Python)
+backend/__pycache__/
+backend/**/__pycache__/
+backend/scam_numbers.db
+*.pyc

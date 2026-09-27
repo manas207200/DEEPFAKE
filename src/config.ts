@@ -1,4 +1,4 @@
-export const DEFAULT_API_URL = "http://localhost:8000";
+export const DEFAULT_API_URL = "http://192.168.1.38:8000";
 
 export const DEMO_NUMBERS = [
   {
