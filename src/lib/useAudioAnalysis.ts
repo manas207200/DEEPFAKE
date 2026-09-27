@@ -69,23 +69,23 @@ export function useAudioAnalysis(opts: {
           allowsRecording: true,
           playsInSilentMode: true,
         });
-
         if (opts.demoMode) {
-          try {
-            player.loop = true;
-            player.volume = 0.85;
-            player.play();
-          } catch (e) {
-            // Player may not be ready yet
-          }
+  try {
+    player.loop = true;
+    player.volume = 0.85;
+    player.play();
+  } catch (e) {
+    // Player may not be ready yet
+  }
 
-          while (!cancelled.current) {
-            await runChunk({ demo_clip: opts.demoClip });
-            await delay(4000);
-          }
-          return;
-        }
+  while (!cancelled.current) {
+    await runChunk({ demo_clip: opts.demoClip });
+    await delay(2000);
+  }
+  return;
+}
 
+        
         while (!cancelled.current) {
           await recorder.prepareToRecordAsync();
           recorder.record();
